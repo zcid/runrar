@@ -31,10 +31,10 @@ def make_parser():
                 wrapper")
 
     parser.add_argument('-t', nargs='?', default=os.getcwd(),
-        metavar="target directory")
+        metavar="directory to begin traversal")
     
     parser.add_argument('-s', nargs='?', default=None,
-        metavar="save directory")
+        metavar="directory to save extracted files")
 
     return parser
 
