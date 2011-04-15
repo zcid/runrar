@@ -2,7 +2,7 @@ Runrar (Recursive Unrar) is an unrar wrapper designed to descend into a
 directory tree and unrar all archives found. For example, archived media that
 is saved in a hierarchical manner.
 
-It requires that unrar be installed and in the user's path. It has a command
+It requires that unrar be installed and in the user's path at /usr/bin/unrar. It has a command
 line format as such:
 
 runrar [arg1...arg2]
