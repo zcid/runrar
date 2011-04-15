@@ -1,0 +1,6 @@
+allow for sfv file checks prior to unrar
+
+par2 integration
+
+allow for multiple save directories based on hierarchy (parent/grandparent dirs)
+    or filetype
