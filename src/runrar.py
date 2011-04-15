@@ -8,6 +8,7 @@ import argparse
 import os
 import fnmatch
 import subprocess
+import zlib
 
 def runrar():
     parser = make_parser()
@@ -36,6 +37,8 @@ def make_parser():
     parser.add_argument('-s', nargs='?', default=None,
         metavar="directory to save extracted files")
 
+    parser.add_argument('-c', action='store_true', default=False)
+
     return parser
 
 
@@ -47,12 +50,41 @@ def run_parser(parser):
     print("parsing command line")
 
     parsed_args = parser.parse_args(argv[1:])
-    print("args=", parsed_args.t, parsed_args.s)
+    print("args=", parsed_args.t, parsed_args.s, parsed_args.c)
     
-    return (parsed_args.t, parsed_args.s)
+    return (parsed_args.t, parsed_args.s, parsed_args.c)
 
 
-def unrar(target_dir=os.getcwd(), save_dir=None):
+def check_sfv(directory):
+    """
+    Processes all sfv files in a directory.
+    """
+    sfv_list = fnmatch.filter(os.listdir(directory), "*sfv")
+    for file in sfv_list:
+        sfv = open(os.path.join(directory, file), 'r')
+
+        for line in sfv:
+            data = line.split()
+
+            if data[0][0] != ';':
+                print(data[1], data[0])
+                checkfile = os.path.join(directory, data[0])
+                checksum = str(hex((zlib.crc32(open(checkfile, 'br').read()) \
+                        & 0xffffffff)))[2:]
+
+                if int(checksum, 16) == int(data[1], 16):
+                    print(checksum, "OK")
+                else:
+                    print(checksum, "BAD")
+                    print("ERROR: checksum fail: ", checkfile)
+                    return False
+
+        sfv.close()
+
+    return True
+
+
+def unrar(target_dir=os.getcwd(), save_dir=None, test_sfv=False):
     """
     The core functionality is handled by this function.
     """
@@ -67,6 +99,10 @@ def unrar(target_dir=os.getcwd(), save_dir=None):
             "\nunraring files\nfrom: ", target_dir, "\nto: ", save_dir,
             "\n*******************************************\n")
     
+    # fixme: needs return check for errors
+    if test_sfv:
+        check_sfv(target_dir)
+
     # unrar archives in current directory
     for file in fnmatch.filter(files, "*.rar"):
         print("unraring: ", file)

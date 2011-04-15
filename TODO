@@ -1,4 +1,10 @@
-allow for sfv file checks prior to unrar
+inspect check_sfv() return
+
+clean up output
+
+diversify behavior of sfv testing
+    -allow for program termination on fail
+    -also for directory skip on fail (default?)
 
 par2 integration
 
