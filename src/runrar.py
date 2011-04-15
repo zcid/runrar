@@ -15,7 +15,6 @@ def runrar():
 
     # args is a tuple of arguments in the order expected by unrar
     args = run_parser(parser)
-    print("\nblah\n",args)
 
     unrar(*args)
 
@@ -26,7 +25,7 @@ def make_parser():
     """
     Creates a parser that handles -t and -s options.
     """
-    print("initializing command line parser")
+    print("\ninitializing command line parser")
     
     parser = argparse.ArgumentParser(description = "runrar - a recursive unrar \
                 wrapper")
@@ -50,7 +49,6 @@ def run_parser(parser):
     print("parsing command line")
 
     parsed_args = parser.parse_args(argv[1:])
-    print("args=", parsed_args.t, parsed_args.s, parsed_args.c)
     
     return (parsed_args.t, parsed_args.s, parsed_args.c)
 
@@ -84,7 +82,7 @@ def check_sfv(directory):
     return True
 
 
-def unrar(target_dir=os.getcwd(), save_dir=None, test_sfv=False):
+def unrar(target_dir=os.getcwd(), save_dir=None, test_sfv=False, debug=False):
     """
     The core functionality is handled by this function.
     """
@@ -96,7 +94,8 @@ def unrar(target_dir=os.getcwd(), save_dir=None, test_sfv=False):
             unrar(os.path.join(target_dir, file), save_dir, test_sfv)
 
     print("\n*******************************************",
-            "\nunraring files\nfrom: ", target_dir, "\nto: ", save_dir,
+            "\nunraring files\nfrom: ", target_dir, "\nto: ", \
+                    save_dir if save_dir else target_dir,
             "\n*******************************************\n")
     
     # fixme: needs return check for errors
@@ -108,7 +107,7 @@ def unrar(target_dir=os.getcwd(), save_dir=None, test_sfv=False):
         print("unraring: ", file)
         abs_file = os.path.join(target_dir, file)
 
-        call = ['/usr/bin/unrar', 'x', abs_file]
+        call = ['/usr/bin/unrar', 'x', '-inul', '-y', abs_file]
         if save_dir:
             call.append(save_dir)
         else:

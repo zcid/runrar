@@ -6,6 +6,8 @@ diversify behavior of sfv testing
     -allow for program termination on fail
     -also for directory skip on fail (default?)
 
+allow for verbose output via debug flag
+
 par2 integration
 
 allow for multiple save directories based on hierarchy (parent/grandparent dirs)
