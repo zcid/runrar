@@ -15,3 +15,7 @@ runrar [arg1...arg2]
     -s save_directory
         
         where the files will be saved after unarchiving.
+
+    -c
+
+        checks any sfv files found while unraring archives

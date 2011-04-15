@@ -93,7 +93,7 @@ def unrar(target_dir=os.getcwd(), save_dir=None, test_sfv=False):
     # spawn a new instance of unrar() for each directory
     for file in files:
         if os.path.isdir(os.path.join(target_dir, file)):
-            unrar(os.path.join(target_dir, file), save_dir)
+            unrar(os.path.join(target_dir, file), save_dir, test_sfv)
 
     print("\n*******************************************",
             "\nunraring files\nfrom: ", target_dir, "\nto: ", save_dir,
